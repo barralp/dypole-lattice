@@ -1,0 +1,635 @@
+\documentclass[reprint,amsmath,amssymb,aps,nofootinbib]{revtex4-1}
+%\documentclass[10pt,a4paper,twoside,twocolumn, english]{report}
+
+
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{dsfont}
+\usepackage{extarrows}
+\usepackage{esvect}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{physics}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{datetime}
+\usepackage{tabularx, multirow, booktabs}
+
+\renewcommand{\d}{\,\text{d}}
+
+\begin{document}
+
+
+\title{741 lattice calculation}
+
+\author{Dypole}
+
+\maketitle
+
+
+\subsection{Remark on trap depth formula}
+
+I put at the end of the paper the classical derivation of the dipolar and radiative force that gives rise to the potential for a single beam ODT:
+\begin{equation}
+\label{trap_depth}
+U_{\text{ODT}} = \frac{1}{4}\text{Re}(\alpha)E^{2} = \frac{1}{2}\text{Re}(\alpha)\frac{I_{0}}{\epsilon_{0}c}
+\end{equation}
+
+It is different from the Rudy Grimm's paper \url{arXiv:physics/9902072} on optical dipole traps where for him the intensity is defined as $I_{\text{Grimm}} = 2\epsilon_{0}cE^{2}$ which is for me a very obscure way of defining intensity. I usually say that it is the average value of the Poynting vector $\vec{\Pi}=\frac12\text{Re}(\vec{E}\cross\vec{B^{*}}/\mu_{0}) $ so $I = E^{2}/(2\mu_{0}c)=\frac12\epsilon_{0}cE^{2}$. So our two formula don't agree about the electric field intensity, but they do when we consider the light intensity. Please correct me if I'm wrong.
+
+For a plane wave, $I=\text{Power}/\text{Surface}=P/S$ and for a Gaussian beam, noting $I_{0}$ the peak intensity we have:
+\begin{equation}
+\label{gaussian_intensity}
+I_{0} = \frac{2P}{\pi w_{0}^{2}}
+\end{equation}
+
+Where $w_{0}$ is the beam waist (radius). And in our case of a lattice, the trap depth comes from the 2 beams interfering, giving rise to a field amplitude of $2E$ at the antinodes, and thus 4 times the trapping depth compare to a regular ODT:
+\begin{equation}
+U = 2\text{Re}(\alpha)\frac{I_{0}}{\epsilon_{0}c} = 4\text{Re}(\alpha)\frac{P}{\pi w_{0}^{2}\epsilon_{0}c}
+\end{equation}
+
+\subsection{Trap frequency}
+
+The potential shape is $U\sin^{2}(kz)$, so near an antinode:
+\begin{equation}
+\label{trap_freq_depth}
+Uk^{2}z^{2}=\frac12m\omega_{z}^{2}z^{2}
+\end{equation}
+which gives the trapping frequency:
+\begin{equation}
+\label{trap_frequency}
+\omega_{z}^{2} = 8\text{Re}(\alpha)\frac{Pk^{2}}{\pi w_{0}^{2}\epsilon_{0}cm}= \frac{32\pi\text{Re}(\alpha) P}{\lambda^{2} w_{0}^{2}\epsilon_{0}cm}
+\end{equation}
+
+It is useful to have the correspondance between trap frequency en lattice depth:
+\begin{equation}
+\frac{U}{E_{r}}=\frac{\frac{m\omega_{z}^{2}}{2k^{2}}}{\frac{\hbar^{2}k^{2}}{2m}} = \frac{m^{2}\omega_{z}^{2}}{\hbar^{2}k^{4}} = 0.05 (\omega_{z}(\text{kHz}))^{2}
+\end{equation}
+So a trap frequency of $100 \text{ kHz}$ corresponds to a lattice depth of 500 recoils.
+
+\subsection{Polarizability}
+
+To evaluate the trap frequency we need the polarizability\footnote{I was actually wondering if the definition was the same for non one-electron atoms...}:
+\begin{equation}
+\text{Re}\left(\alpha(\omega)\right) = \frac{2}{\hbar}\sum_{k} d_{k}^{2}\frac{\omega_{kg}}{\omega_{kg}^{2}-\omega^{2}} = 6\pi\epsilon_{0}c^{3}\sum_{k}\frac{\Gamma_{k}}{\omega_{kg}^{3}}\frac{\omega_{kg}}{\omega_{kg}^{2}-\omega^{2}}
+\end{equation}
+
+There are many lines in dysprosium, but Ben Lev's paper (\url{arXiv:1011.4738}) gives the background polarizability of dysprosium around 741: $\alpha_{741} = 220 \text{ a.u.}$, although this is unclear, I will assume it isotropic. We add the single 741 line on top of that, and since $\omega \simeq \omega_{741}$:
+\begin{equation}
+\begin{array}{llll}
+\text{Re}(\alpha) &=& \alpha_{741} - 3\pi\kappa_{r}\epsilon_{0}c^{3}\frac{\Gamma_{741}}{\omega_{741}^{3}}\frac{1}{\Delta_{741}} \\[10pt]
+	&=& 220 - \frac{7437}{\Delta\text{ (GHz)}}\text{ a.u.}
+\end{array}
+\end{equation}
+
+GIVE HERE THE EXPLANATION OF WHAT IS KAPPA RED
+
+With $\Delta_{741} = \omega - \omega_{741}$ being negative for red-detuned light. The background $\alpha_{741}$ being positive, it is clear that is more interesting to stay red-detuned as the polarizability goes to 0 on the blue side and the scattering rate is symmetric. For a detuning of $\Delta = -100 \text{ GHz}$ it gives $\text{Re}(\alpha) \simeq 360\text{ a.u.}$
+
+Converted into trap frequency through \ref{trap_frequency} it gives for the background polarizability trap frequency:
+\begin{equation}
+\omega_{z} = 2\pi\cdot 4.8\text{ MHz}\left( \frac{\sqrt{P(\text{Watt})}}{w_{0}(\mu\text{m})}\right)
+\end{equation}
+
+So\footnote{Isn't a bit too high? Would somebody check that?} with beam of $P = 0.5\text{ W}$ and $w_{0} = 10\mu\text{m}$, without even thinking of the 741 line coming into play we would have a bare trap frequency of 340 kHz. Considering the transition with the red light -100 GHz of detuning brings us to 395 kHz. The whole curve is plotted in figure \ref{trap_frequency_image}.
+
+\begin{figure}
+\begin{center}
+\subfigure[Trap frequency]{
+\centering
+\includegraphics[width=0.45\textwidth]{trap_frequency.png}
+\label{trap_frequency_large}
+				}
+\subfigure[Zoom]{
+\centering
+\includegraphics[width=0.45\textwidth]{trap_frequency_zoom.png}
+\label{trap_frequency_zoom}
+				}
+\caption{\label{trap_frequency_image}Trap frequency}
+\end{center}
+\end{figure}
+
+
+\subsection{Spontaneous emission}
+
+The spontaneous emission is $\gamma = \Gamma\mathcal{P}_{e}$ with $\Gamma$ the linewidth and $\mathcal{P}_{e}$ the population in the excited state. 
+
+We have\footnote{$s = \frac{2\Omega^{2}}{\Gamma^{2}+4\Delta^{2}}\simeq\frac{\Omega^{2}}{2\Delta^{2}}$. I can also recall that $I/I_{sat} = 2\Omega^{2}/\Gamma^{2}$ so $I_{sat} = \frac{\hbar^{2}\epsilon_{0}c\Gamma^{2}}{4d^{2}} = \frac{\hbar^{2}\Gamma\omega^{3}}{12\pi\hbar c^{2}}$. Then $s = \frac{I/I_{sat}}{1+4\Delta^{2}/\Gamma^{2}}$. Note that the reasoning with Rabi-oscillation formula would lead to $\mathcal{P}_{e} = \frac{\Omega^{2}}{2\Delta^{2}}$, with the $1/2$ coming from the time average of the Rabi oscillations... I don't really understand how we get the the extra 1/2 factor with OBE} $\mathcal{P}_{e}=\frac{1}{2}\frac{s}{1+s}\simeq \frac{\Omega^{2}}{4\Delta^{2}}$. $\Omega$ is the Rabi frequency that relates to $g$ the single photon Rabi frequency\footnote{Recall the factor of 2 in the definition, it's $\hbar\Omega/2=-\vec{d}\cdot \vec{E}$}:
+\begin{equation}
+\Omega = g\sqrt{n+1}\simeq g\sqrt{n} = \frac{2}{\hbar}d\sqrt{\frac{\hbar\omega}{2\epsilon_{0}V}}\sqrt{n}
+\end{equation}
+And the photon number in a volume $V$ is simply $u/\hbar\omega = IV/c\hbar\omega$. So:
+\begin{equation}
+\Omega = \frac{2}{\hbar}d\sqrt{\frac{\hbar\omega}{2\epsilon_{0}V}}\sqrt{\frac{IV}{\hbar\omega c}}= \frac{d}{\hbar}\sqrt{\frac{2I}{\epsilon_{0}c}}
+\end{equation}
+And eventually:
+\begin{equation}
+\mathcal{P}_{e} = \frac{Id^{2}}{2\hbar^{2}\epsilon_{0}c\Delta^{2}}
+\end{equation}
+
+Here is the moment where one needs to be precise (and why I prefer the derivation with the Rabi frequency rather than using the saturation intensity). I think it is as if:
+\begin{equation}
+\Gamma_{0} = \frac{d^{2}\omega_{0}^{3}}{3\pi\hbar\epsilon_{0}c^{3}}
+\end{equation}
+So $d^{2}$ is just a matrix element that has nothing to do with the wavelength at which we excite the transition. So\footnote{But to be honest I think it is clear that the model of having an atom in the excited state that decays breaks down here, and that we should consider the whole thing as a 2 photon process, I don't really see why I shouldn't say the opposite thing by putting the $\omega^{3}$ factor in the population $\mathcal{P}_{e}$.}:
+\begin{equation}
+\mathcal{P}_{e} = \frac{I}{2\hbar\Delta^{2}}\frac{3\pi c^{2}\Gamma_{0}}{\omega_{0}^{3}}
+\end{equation}
+It is the spontaneous emission rate inherit of the $\omega^{3}$ factor from the real excitation frequency:
+\begin{equation}
+\gamma = \mathcal{P}_{e}\Gamma = \mathcal{P}_{e}\Gamma_{0}\left(\frac{\omega}{\omega_{0}}\right)^{3} = \frac{I}{2\hbar\Delta^{2}}\frac{3\pi c^{2}\Gamma_{0}^{2}}{\omega_{0}^{3}}\left(\frac{\omega}{\omega_{0}}\right)^{3}
+\end{equation}
+We then need to sum over all the possible excitation lines at the singlet ${}^{1}P$ states and the 741nm state.
+
+\subsection{Side remark on the Clebsh-Gordan coefficients}
+
+I discussed a bit in my term paper how to consider all the blue excitations at 405, 419 and 421 with the different possible Clebsch-Gordan coefficients that are explicited in figure \ref{fig:CCC}\footnote{Looking at the NIST database I think there is also another state at 419 that has a non-negligible line strength that I maybe should consider}.
+
+\begin{figure}
+\begin{center}
+\subfigure[J = 9]{
+\centering
+\includegraphics[width=0.17\textwidth]{dy_clebsch_gordan_lattice_9.eps}
+\label{fig:CCC_9}
+				}
+\subfigure[J = 8]{
+\centering
+\includegraphics[width=0.121\textwidth]{dy_clebsch_gordan_lattice_8.eps}
+\label{fig:CCC_8}
+				}
+\subfigure[J = 7]{
+\centering
+\includegraphics[width=0.121\textwidth]{dy_clebsch_gordan_lattice_7.eps}
+\label{fig:CCC_7}
+				}
+\caption{\label{fig:CCC}Clebsch-Gordan coefficient for the stretched state}
+\end{center}
+\end{figure}
+
+The lattice will have a linear polarization, which decomposes as 50\%/50\% in $\sigma_{+}$ and $\sigma_{-}$ light to be able to both trap $+8$ and $-8$ states. We should therefore divide by 2 the effective $\Omega^{2}$ in the calculations, and similar for the spontaneous emission rate. It gives:
+
+\begin{equation}
+\begin{array}{lllll}
+\gamma_{421} &=& \left(\frac{1}{2}1^{2}+\frac{1}{2}\frac{1}{153}\right)\frac{I}{2\hbar\Delta_{421}^{2}}\frac{3\pi c^{2}\Gamma_{421}^{2}}{\omega_{421}^{3}}\left(\frac{\omega_{741}}{\omega_{421}}\right)^{3} \\
+\gamma_{419} &=& \left(\frac{1}{2}\frac{1}{9}\right)\frac{I}{2\hbar\Delta_{419}^{2}}\frac{3\pi c^{2}\Gamma_{419}^{2}}{\omega_{419}^{3}}\left(\frac{\omega_{741}}{\omega_{419}}\right)^{3} \\
+\gamma_{405} &=& \left(\frac{1}{2}\frac{15}{17}\right)\frac{I}{2\hbar\Delta_{405}^{2}}\frac{3\pi c^{2}\Gamma_{405}^{2}}{\omega_{405}^{3}}\left(\frac{\omega_{741}}{\omega_{405}}\right)^{3}
+\end{array}
+\end{equation}
+
+Summing them up gives simply a factor $\kappa_{b} = 0.84$ as if it was all coming from a 2-level system coming from the 421 line: $\gamma_{\text{blue}} \simeq 0.84\cdot\frac{I}{2\hbar\Delta_{421}^{2}}\frac{3\pi c^{2}\Gamma_{421}^{2}}{\omega_{421}^{3}}\left(\frac{\omega_{741}}{\omega_{421}}\right)^{3}$. If one carefully looking at the NIST dabase\footnote{\url{https://physics.nist.gov/cgi-bin/ASD/lines_hold.pl?el=Dy}} and filtering only state with $\Gamma >2\pi\cdot 1\text{ MHz}$ connection to the ground state there is actually other $J = 8$ state at 419\footnote{The state has a term symbol $4f^{9}(^{6}H^{\circ})5d^{2}(^{3}F) (^{8}K^{\circ})6s$}. Adding the scattering from this state would transform the factor in 0.85. If one wants to add the 626 scattering, the correction would be on the order of $10^{-5}$.
+We eventually get
+\begin{equation}
+\gamma_{\text{blue}} \simeq \frac{\kappa_{b} I}{2\hbar\Delta_{421}^{2}}\frac{3\pi c^{2}\Gamma_{421}^{2}}{\omega_{421}^{3}}\left(\frac{\omega_{741}}{\omega_{421}}\right)^{3}
+\end{equation}
+For the red transition, the overall coefficient is $\kappa_{r} = \frac{1}{2}1^{2}+\frac{1}{2}\frac{1}{153} \simeq \frac{1}{2}$, so:
+\begin{equation}
+\gamma_{\text{red}} \simeq \frac{\kappa_{r}I}{2\hbar\Delta_{741}^{2}}\frac{3\pi c^{2}\Gamma_{741}^{2}}{\omega_{741}^{3}}
+\end{equation}
+And:
+\begin{equation}
+\gamma = \gamma_{\text{blue}} + \gamma_{\text{red}} 
+\end{equation}
+
+The result is plotted in figure \ref{scattering_rate_image}. With taking the intensity of a gaussian beam from \ref{gaussian_intensity} we can get the following formula:
+\begin{equation}
+\begin{array}{llll}
+\gamma_{\text{blue}} &=& \frac{3 \kappa_{b} c^{2}\Gamma_{421}^{2}}{\hbar\Delta_{421}^{2}\omega_{421}^{3}}\left(\frac{\omega_{741}}{\omega_{421}}\right)^{3}\frac{P}{w_{0}^{2}} \\[10pt]
+	&=& 4.9\cdot 10^{1} \left( \frac{P(\text{Watt})}{(w_{0}(\mu\text{m}))^{2}}\right) \text{ s}^{-1}
+\end{array}
+\end{equation}
+So for $P = 0.5\text{W}$ and $w_{0}=10\mu$m it gives $\gamma_{\text{blue}} = 0.24 \text{ s}^{-1}$
+
+Similarly we have for the red state:
+\begin{equation}
+\begin{array}{llll}
+\gamma_{\text{red}} &=& \simeq \frac{3\kappa_{r} c^{2}\Gamma_{741}^{2}}{\hbar\Delta_{741}^{2}\omega_{741}^{3}}\frac{P}{w_{0}^{2}} \\[10pt]
+	&=& 2.5\cdot 10^{5} \left( \frac{P(\text{Watt})}{(w_{0}(\mu\text{m}))^{2}(\Delta(\text{GHz}))^{2}}\right) \text{ s}^{-1}
+\end{array}
+\end{equation}
+So a detuning of $\Delta = 100\text{ GHz}$ with the same laser beam gives a scattering rate of $\gamma_{\text{red}} = 0.12 \text{ s}^{-1}$. I used $\Gamma_{421} = 2\pi\cdot 32.2\text{ MHz}$ and $\Gamma_{741} = 2\pi\cdot 1.78\text{ kHz}$.
+
+\begin{figure}
+\begin{center}
+\centering
+\includegraphics[width=0.45\textwidth]{scattering_rate.png}
+\caption{\label{scattering_rate_image}Scattering rate}
+\end{center}
+\end{figure}
+
+\subsection{Conclusion}
+
+I think it isn't really necessary to have a very tight focus and we would benefit from having a larger beam waist. To figure out what size is the best choice for having a large trapping frequency (possibly few hundreds of kHz) while keeping the scattering rate low (bellow $1\text{ s}^{-1}$ or even $0.1\text{ s}^{-1}$), it is useful to use color plots for those two quantities, while varying the beam waist $w_{0}$ and the detuning $\Delta$, all at fixed laser power $P = 500\text{ mW}$. Those plots are presented in figure \ref{colorplots}.
+
+\begin{figure}
+\begin{center}
+\subfigure[Trap frequency]{
+\centering
+\includegraphics[width=0.55\textwidth]{colorplot_trap_freq.png}
+\label{colorplot_trap_freq}
+				}
+\subfigure[Scattering rate]{
+\centering
+\includegraphics[width=0.55\textwidth]{colorplot_scattering.png}
+\label{colorplot_scattering}
+				}
+\subfigure[Color plot of the trap frequency on which has been added the contour plots (in red) of the scattering rate]{
+\centering
+\includegraphics[width=0.55\textwidth]{colorplot_combined.png}
+\label{colorplot_combined}
+				}
+\caption{\label{colorplots}Trap frequency and scattering rate color plots}
+\end{center}
+\end{figure}
+
+On the last figure \ref{colorplot_combined}, I combined the two other figures \ref{colorplot_trap_freq} and \ref{colorplot_scattering}. Depending on our requirement for heating, we have to stay in a certain region of the plot delimited by the red curves. If we say that we want to be able to reach $200\text{ kHz}$ of trap frequency while keeping the scattering rate bellow $1\text{ s}^{-1}$, then we read that the largest beam waist we can afford is around $25\mu\text{m}$. that is probably the value that I would choose. REVIEW THAT
+
+
+\subsection{What frequency do we need}
+
+I refer here to the Ticknor paper. For our system, there are several scales. First the dipolar length:
+\begin{equation}
+\label{dipolar_length}
+D =\mu_{m} \left(\frac{\mu_{0}}{4\pi}\right)\frac{d^{2}}{\hbar^{2}} = 10.5\text{ nm}
+\end{equation}
+With $\mu_{m} = m/2$ is the reduced mass, and $d = 10\mu_{B}$. The confinement length:
+\begin{equation}
+l = \sqrt{\frac{\hbar}{\mu\omega}} = \frac{352}{\sqrt{\omega(\text{kHz})}}\text{ nm}
+\end{equation}
+So a 100 kHz trap depth gives a 35 nm confinement length and a 1 MHz trap depth a 11 nm one.
+
+The parameter $\bar{D} = D/l$ is then:
+\begin{equation}
+\bar{D} = \frac{D}{l} = 2.98\cdot 10^{-2}\sqrt{\omega(\text{kHz})}
+\end{equation}
+So a $\bar{D} = 0.34$ which is the threshold in the paper occurs for $\omega = 2\pi\cdot 132\text{ kHz}$ and a $\bar{D}$ of 1 for $\omega = 2\pi\cdot 1.14\text{ MHz}$
+
+The chemical potential of a Bose gas in a trap is:
+\begin{equation}
+\mu_{c} = \frac{\hbar\omega_{\text{ho}}}{2}\left(\frac{15Na}{a_{\text{ho}}}\right)^{2/5}
+\end{equation}
+It gives $\mu_{c}/\hbar = 2\pi\cdot 1\text{ kHz}$ to 3 kHz for a trap depth varying from 100 kHz to 1 MHz trap with $10^{3}$ atoms and $100 a_{0}$ for the scattering length. Calculated in the blue lattice case (see later) with a transverse oscillator length of $2\mu$m. It has to be compared with the dipolar energy defined in the paper:
+\begin{equation}
+E_{D} = \frac{\hbar^{2}}{2\mu_{m}D^{2}} = \hbar (2\pi\cdot 556\text{ kHz})
+\end{equation}
+So if the collisional energy is indeed the chemical potential, we would not be in the strong 2D case but rather in the semiclassical limit as depicted in figure 5 of the paper. With those number\footnote{I took $\mu_{c}/\hbar = 2\pi\cdot 2$ kHz and $E_{D} = \hbar^{2}/(2\mu_{m}D^{2})$}, $y = log_{10}(E/E_{D})=-2.44$, and I recall the formula 4 of the paper:
+\begin{equation}
+\begin{array}{cllll}
+\ln(P_{T}) &=& a\bar{D}^{2/5} + b\bar{D}^{-1/10} \\
+a &=& -5.17436 + 0.143167 y + 0.0093433 y^{2} \\
+  &= & -5.4685 \\
+b &=& 5.16437 + 1.61799 y + 0.135513 y^{2}\\
+  &=& 2.0190 \\
+\end{array}
+\end{equation}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.45\textwidth]{exponential_reduction.png}
+\caption{\label{exponential_reduction}The vertical line shows the critical $\omega$ where $D/l=0.34$.}
+\end{center}
+\end{figure}
+
+All of that is pretty sad because we clearly see in the figure \ref{exponential_reduction} that the suppression only happens for trap frequency bigger than 3 MHz.
+
+ADD COMPARISION WITH EXPECTED WKB APPROX
+
+The density in the pancake for an ideal bose gas is (\url{https://ethz.ch/content/dam/ethz/special-interest/phys/theoretical-physics/cmtm-dam/documents/qg/Chapter_01.pdf}):
+\begin{equation}
+n_{0} = \frac{N}{\pi^{3/2}a_{x}a_{y}a_{z}}
+\end{equation}
+with $a_{i} = \sqrt{\frac{\hbar}{m\omega_{i}}}$
+
+
+ADD COMMENT ON CHEMICAL POTENTIAL AND CLOUD SIZE // RAYLEIGH LENGTH
+
+In the transverse direction: $I_{0}\exp\left(\frac{-2r^{2}}{w_{0}^{2}}\right)\simeq I_{0}\left(1-\frac{2r^{2}}{w_{0}^{2}}\right)$ and therefore $U=-U_{0}\left(1-\frac{2r^{2}}{w_{0}^{2}}\right)=-U_{0}+\frac{1}{2}m\omega_{\perp}^{2}r^{2}$ which gives:
+\begin{equation}
+\label{eq:transverse_trap_freq}
+\omega_{\perp}^{2}=\frac{4U_{0}}{mw_{0}^{2}}
+\end{equation}
+and from equation \ref{trap_freq_depth} we had $U_{0}k^{2} = \frac{1}{2}m\omega_{z}^{2}$ so
+\begin{equation}
+\label{trapping_freq_relation}
+\omega_{\perp}^{2} = \frac{2\omega_{z}^{2}}{k^{2}w_{0}^{2}}
+\end{equation}
+
+And then:
+\begin{equation}
+\begin{array}{lllll}
+n_{0} &=& \left(\frac{m}{\hbar\pi}\right)^{3/2}\omega_{\perp}\sqrt{\omega_{z}}N \\[10pt]
+	&=& \left(\frac{m\omega_{z}}{\hbar\pi}\right)^{3/2}\frac{\sqrt{2}N}{kw_{0}} = 2.0\cdot 10^{12} \frac{\omega(\text{kHz})^{3/2}N}{w_{0}(\mu\text{m})}\text{cm}^{-3}
+\end{array}
+\end{equation}
+
+Which for a $2\pi\cdot1\text{ MHz}$ trap frequency and $10^{3}$ atoms (in one pancake) and $10\mu$m beam waist gives a peak density of $6.2\cdot 10^{18}\text{cm}^{-3}$.
+
+We can look at the pancake aspect ratio:
+\begin{equation}
+\frac{a_{z}}{a_{\perp}}=\sqrt{\frac{\omega_{\perp}}{\omega_{z}}} = \frac{2^{1/4}}{\sqrt{kw_{0}}}
+\end{equation}
+which goes from 1:5 for a $4\mu$m beam waist to 1:10 for a $15\mu$m beam waist.
+
+\subsection{Thomas-Fermi case}
+
+The calculation done previously was assuming that the atoms are in the ground state of the transverse confinement, which is valid at least for the maximum $\omega_{z} = 2\pi\cdot 1\text{ MHz}$ as in that case $\omega_{\perp} = 2\pi\cdot 16\text{ kHz}$, so $\mu_{c} \ll \hbar\omega_{z}$, which means the atoms do not enter the Thomas-Fermi regime.
+
+If we instead assume Thomas-Fermi regime in the radial plane, with the cloud filling the potential up to its chemical potential: $n_{\perp}(\rho)=\alpha(\mu_{c}-V(\rho))=\alpha(\mu_{c}-\frac{1}{2}m\omega_{\perp}^{2}r^{2})$. The normalization is $N = \int_{0}^{r_{c}}\alpha(\mu_{c}-\frac{1}{2}m\omega_{\perp}^{2}r^{2})2\pi r\text{d}r=\frac{\pi\alpha\mu_{c}^{2}}{m\omega_{\perp}^{2}}$. Therefore the central 2D-density is $n_{\perp}(0) = \frac{Nm\omega_{\perp}^{2}}{\pi\mu_{c}}$. The 1D harmonic oscillator wavefunction is $\Psi(x)=\left(\frac{1}{\pi a_{z}^{2}}\right)^{1/4}e^{-\frac{z^{2}}{2a_{z}^{2}}}$, so the total central density is:
+\begin{equation}
+n_{0} = \frac{Nm\omega_{\perp}^{2}}{\pi^{2}\mu_{c}a_{z}}
+\end{equation}
+
+With the previous formulas on the aspect ratio formulas \ref{trapping_freq_relation} we obtain:
+\begin{equation}
+n_{0} = \frac{2N\hbar^{2}}{\pi^{2}m\mu_{c}a_{z}^{5}(kw_{0})^{2}}
+\end{equation}
+
+\subsection{Acceptable scattering rate}
+
+Here is a plot in figure \ref{acceptable_scattering} of the trap frequency we can hope for as a function of the scattering rate we accept for 3 different beam waist.
+
+\begin{figure}
+\begin{center}
+\centering
+\includegraphics[width=0.45\textwidth]{trap_frequency_vs_scattering.png}
+\caption{\label{acceptable_scattering}Trap frequency as a function of scattering rate for 3 beam waist.}
+\end{center}
+\end{figure}
+
+\subsection{Blue lattice}
+
+In the case of a blue lattice we want to cancel the first order by using a collinear 1064 beam with twice the beam waist (20$\mu$m) to compensate the transverse trap frequency created by a $10\mu$m 741 beam with $2\pi\cdot 1\text{ MHz}$ trap frequency. The transverse trap frequency is $\omega_{\perp} = 2\pi\cdot 17\text{ kHz}$. It would require a 340W beam. The ODT power needed to compensate is too high. However I would expect that the 3-body losses are suppressed even more than the dipolar relaxation (squared). 
+
+But does it really matter? We don't want to compensate the repulsion where the 741 power is the highest, we want repulsion were the 741 goes actually to 0 power at the position of the atoms.
+
+We want the 1064 to offer a transverse oscillator length smaller but comparable to the 741 beam waist. For instance a $2\mu$m oscillator length would require a 1064 beam of 11mW with $50\mu$m beam waist, which is easy to archive. Maybe hard to correctly center on the lattice. That would greatly reduce the density to $n_{0} = 6\cdot10^{15}\text{ cm}^{-3}$ for $10^{3}$ atoms and expand the aspect ratio to 1:250. Which is maybe more acceptable values.
+
+If we don't do that I would expect the dipole-dipole repulsion to play an important role in the transverse plane as well when densities get too high. For equation \ref{dipolar_length} the dipolar length is $D=10.4\text{ nm}$. We can construct a critical related density:
+\begin{equation}
+n_{c,dd}=\frac{1}{D^3} = 9\cdot 10^{17}\text{ cm}^{-3}
+\end{equation}
+
+Maybe we could look at the 3 body loss-rate behavior when we compare the loss-rates of $m=+8$ that dipolar relax and the $m=-8$ that don't.
+
+We could use our current ODT configuration although the trap would have a slight aspect ration in the transverse plane of 1:7 ($1/\sin(8^{\circ}) = 7.2$). I would maybe recommend to use a top ODT beam and dealing with the reflexion from the viewport.
+
+Now that I'm thinking, the cloud is going to be much bigger than the $2\mu$m transverse oscillator length with those parameters. It indeed corresponds to a trap frequency of 15 Hz, and the chemical potential is a couple kHz. If we assume that the cloud fills the trap up to the chemical potential, it means we want: WWRRRRONNG VERIFY CALCULTATIONS
+\begin{equation}
+\mu_{c} \simeq \frac{1}{2}m\omega_{\perp}^{2}l_{\perp}^{2}
+\end{equation}
+which gives:
+\begin{equation}
+l_{\perp} = \sqrt{\frac{2\mu_{c}}{m\omega_{\perp}^{2}}} = 32\text{ $\mu$m}
+\end{equation}
+for a 2 kHz chemical potential. If we impose $l_{\perp} = 2\mu$m it gives $\omega_{\perp} = 2\pi\cdot 250$ Hz. Which corresponds to a single $P=1.2W$ ODT with 40$\mu$m beam waist. Going to a 20$\mu$m beam waist only requires 75 mW of power.
+
+It might be a bit anoying to use our cross ODT as that would bring us to higher densities since the long cloud axis has to be at most $\sim 2w_{0}/5 \sim 4\mu$m and the small axis is then only $4\mu\text{m}/7= 600$ nm. Using the crossed ODT basically adds a factor of $1/\sin\theta$ factor in the atomic density, considered constrained the max cloud size compared to the 741 beam waist.
+
+Maybe the best is to use 2 beams, one from the current ODT, and one from the top, with minimal power to reduced reflexions on the viewport.
+
+What is the risk of shining the lattice on dichroic mirrors? Even if they reflect it? Could we have wedged ones?
+
+\subsection{Concerns on the zero-point motion anti-trapping force}
+
+On 0th order approximation, the anti-trapping force due to the blue lattice is zero as the atoms sit in the dark. However they explore a larger region of the trap due to the width of the ground state wavefunction, and by that they experience an outward force due to light gradient intensity.
+
+In the case of a combined 741 and 1064 trap, the potential reads:
+\begin{equation}
+V(\rho, z) = V_{741}\sin^{2}(kz)e^{-\frac{\rho^{2}}{2w_{741}^{2}}}-V_{1064}e^{-\frac{\rho^{2}}{2w_{1064}^{2}}}
+\end{equation}
+
+It can be expended in a harmonic oscillator:
+\begin{equation}
+V(\rho, z) = \underbrace{V_{741}k^{2}z^{2}e^{-\frac{\rho^{2}}{2w_{741}^{2}}}}_{V_{1}(\rho, z)}-\underbrace{V_{1064}e^{-\frac{\rho^{2}}{2w_{1064}^{2}}}}_{V_{2}(\rho)}
+\end{equation}
+
+One can take a Bohr-Oppenheimer approach since the mouvement in the $z$ direction is much faster than in the $\rho$ one. We write the total wavefunction as $\Psi(\rho, z) = \phi(z;\rho)\psi(\rho)$ where $\phi(z;\rho)$ is a function of $z$ where $\rho$ is just a parameter. $H = T_{z} + T_{\rho, \theta} + V(\rho, z)$ where $T$ is the kinetic energy, and $(T_{z} + V_{1}(\rho,z))\phi(z;\rho) = E_{z}(\rho)\phi(z;\rho)$. If $\phi(z;\rho)$ is the $z$ ground state harmonic oscillator wavefunction:
+\begin{equation}
+\begin{array}{llll}
+H\Psi(\rho, z) &=& (T_{z}+V_{1}(\rho,z))\phi(z;\rho)\psi(\rho) \\
+& &+(T_{\rho, \theta} + V_{2}(\rho))\phi(z;\rho)\psi(\rho)\\
+&=& (\frac{\hbar\omega_{z}(\rho)}{2}+T_{\rho, \theta} + V_{2}(\rho))\phi(z;\rho)\psi(\rho) \\
+&=& \phi(z;\rho)(\frac{\hbar\omega_{z}(\rho)}{2}+T_{\rho, \theta} + V_{2}(\rho))\psi(\rho)
+\end{array}
+\end{equation}
+
+Which is simply a 2D problem for $\psi(\rho)$ with the potential:
+\begin{equation}
+\begin{array}{lll}
+\tilde{V}(\rho) &=& \frac{\hbar\omega_{z}(\rho)}{2} - V_{1064}e^{-\frac{\rho^{2}}{2w_{1064}^{2}}}\\
+		     &=&  \hbar\sqrt{\frac{V_{741}}{2m}}ke^{-\frac{\rho^{2}}{w_{741}^{2}}} - V_{1064}e^{-\frac{\rho^{2}}{2w_{1064}^{2}}}\\
+		     &\simeq& \tilde{V}_{0}+\frac{1}{2}m\underbrace{\left(-\frac{\hbar k\sqrt{2V_{741}}}{m^{3/2}w_{741}^{2}}+\frac{V_{1064}}{mw_{1064}^{2}}\right)}_{\omega_{\perp}^{2}}\rho^{2}
+\end{array}
+\end{equation}
+
+Which is confining only if $\omega_{\perp}$ is real:
+\begin{equation}
+\begin{array}{rll}
+\frac{V_{1064}}{mw_{1064}^{2}} &>& \frac{\hbar k\sqrt{2V_{741}}}{m^{3/2}w_{741}^{2}}\\[10pt]
+\frac{\text{Re}(\alpha_{1064})P_{1064}}{\pi w_{1064}^{2}\epsilon_{0}c}\frac{1}{mw_{1064}^{2}} &>& \frac{\hbar k\sqrt{2}}{m^{3/2}w_{741}^{2}}\sqrt{\frac{m\omega_{z}^{2}}{2k^{2}}}\\[10pt]
+\frac{P_{1064}}{w_{1064}^{4}} &>& \frac{\pi\epsilon_{0}c\hbar\omega_{z}}{\text{Re}(\alpha_{1064})w_{741}^{2}}
+\end{array}
+\end{equation}
+
+Which for a $10\mu$m 741 beam waist and $2\pi\cdot 1\text{ MHz}$ trap frequency requires:
+\begin{equation}
+\frac{P_{1064}}{w_{1064}^{4}} > 2\cdot10^{-5}\text{ W}/(\mu\text{m})^{4}
+\end{equation}
+
+It corresponds to a power of $0.2$ W for a $10\mu$m 1064 beam waist, $1.2$ W for $16\mu$m and $3$ W for $20\mu$m beam waist. Given our 2-inch optics and the long wavelength of the ODT, it sounds more reasonable to target a $20\mu$m beam waist, or only slightly less.
+
+I plot in figure \ref{fig:ideal_case} the effective potential for the most ideal case where $w_{1064} = w_{741}/\sqrt{2}$ and the ODT power being only slightly above $(1+10^{-4})$ the required frequency for perfectly cancelling the anti-trapping.
+
+\begin{figure}
+\begin{center}
+\centering
+\includegraphics[width=0.55\textwidth]{colorplot_effective_potential_ideal.png}
+\caption{\label{fig:ideal_case}Effective potential for a near-cancellation at all orders}
+\end{center}
+\end{figure}
+
+It is important that we want to keep the cloud centered inside the 741 lattice with a homogeneous $z$ trap frequency, the cloud shouldn't expand too much. In the Thomas-Fermi regime, the size of the cloud is determined by the chemical potential due to the interactions, typically on the order of a kHz. I plot in figure \ref{fig:cloud_size_power} the different trap size we obtain to get a sense of the sensitivity we have on the cloud size.
+
+
+\begin{figure}
+\begin{center}
+\subfigure[$w_{1064} = w_{741}/\sqrt{2}$]{
+\centering
+\includegraphics[width=0.45\textwidth]{cloud_size_power_7.png}
+\label{fig:cloud_size_power_7l}
+				}
+\subfigure[$w_{1064} = 15\mu$m]{
+\centering
+\includegraphics[width=0.45\textwidth]{cloud_size_power_15.png}
+\label{fig:cloud_size_power_15}
+				}
+\subfigure[$w_{1064} = 20\mu$m]{
+\centering
+\includegraphics[width=0.45\textwidth]{cloud_size_power_20.png}
+\label{fig:cloud_size_power_20}
+				}
+\caption{\label{fig:cloud_size_power}Cloud size in the Thomas-Fermi regime for different ODT beam waist as a function of ODT power. Different colors represent different chemical potentials $\mu_{c}$ in $2\pi\cdot\hbar$ (Hz)}
+\end{center}
+\end{figure}
+
+
+I plot figure \ref{fig:colorplots_local} the effective potential and the local trap frequency as well as contour plot of different chemical potentials. I take the center trap frequency to be set at 1MHz, and the chemical potential $\simeq 100\text{ Hz}, 1\text{ kHz}, 10\text{ kHz}$. The 741 beam waist being $10\mu$m and the 1064 being $15\mu$m.
+
+
+\begin{figure}
+\begin{center}
+\subfigure[Effective potential]{
+\centering
+\includegraphics[width=0.55\textwidth]{colorplot_effective_potential.png}
+\label{fig:colorplot_effective_potential}
+				}
+\subfigure[Local trap frequency]{
+\centering
+\includegraphics[width=0.55\textwidth]{colorplot_local_trap_freq.png}
+\label{fig:colorplot_local_trap_freq}
+				}
+\caption{\label{fig:colorplots_local}Effective potential and local trap frequency}
+\end{center}
+\end{figure}
+
+We could set ourselves a constrain on the local trap frequency to not vary by more that $10\%$ on the edge than in the center of the trap. It goes as the square-root of the local 741 intensity so as $e^{-\rho^{2}/w_{741}^{2}}$ so we want $r_{c} > w_{741}\sqrt{|\ln(0.9)|}\simeq w_{741}/3$. We should therefore target for a cloud size of $\simeq 3\mu$m in the case of a $10\mu$m beam waist. A 3D density of $10^{-14} \text{ cm}^{-3}$ leads to a mean particle distance of $200\text{ nm}$, so with this density we could hope for $\simeq 300$ atoms per pancake.
+
+If we use the current ODT, we are able to do the same thing, but the total number of atoms should be reduced by a factor of the aspect ratio. Indeed the 
+
+
+
+
+Which gives rise to a force $\vec{F}=-\vec{\nabla}V$ that has a radial component:
+\begin{equation}
+F_{\rho}(z) = -\rho\underbrace{\left(\frac{V_{1064}}{w_{1064}^{2}}e^{-\frac{\rho^{2}}{2w_{1064}^{2}}}-\frac{V_{741}\sin^{2}(kz)}{w_{741}^{2}}e^{-\frac{\rho^{2}}{2w_{741}^{2}}}\right)}_{\text{local spring constant}}
+\end{equation}
+
+Averaged over the ground state wavefunction in the $z$ direction, the integral $\int\sin^{2}(kz)|\Psi(z)|^{2}\text{d}z = \frac12 e^{-a_{z}^{2}k^{2}}(e^{a_{z}^{2}k^{2}}-1)\simeq \frac{a_{z}^{2}k^{2}}{2}$. But I don't think it's the best thing to look at as we want the cloud to be stable everywhere.
+
+If we assume that $w_{1064}>w_{741}$ it is enough to look at the spring constant in $\rho=0$ to ensure stability. Expanding the $\sin$ it gives:
+\begin{equation}
+F_{\rho}(z) = -\rho\left(\frac{V_{1064}}{w_{1064}^{2}}-\frac{V_{741}k^{2}z^{2}}{w_{741}^{2}}\right)
+\end{equation}
+
+The force is trapping as long as the spring constant is positive, so as long as $kz<\frac{w_{741}}{w_{1064}}\sqrt{\frac{V_{1064}}{V_{741}}}$. Giving a safe margin of $z<na_{z}$ (n=3 leads to above 99.99\% of the cloud being trapped) we want:
+
+\begin{equation}
+V_{1064}>n^{2}k^{2}a_{z}^{2}V_{741}\frac{w_{1064}}{w_{741}}
+\end{equation}
+
+The trap depth for the lattice is as we saw $V_{741} = \frac{m\omega_{z}^{2}}{2k^{2}}$. It simplifies in:
+
+\begin{equation}
+\label{eq:constraint_depth}
+V_{1064}>n^{2}\frac{\hbar\omega_{z}}{2}\frac{w_{1064}}{w_{741}}
+\end{equation}
+
+Taking $n=3$, $w_{1064}=20\mu$m and $w_{741}=10\mu$m, for a $2\pi\cdot1\text{ MHz}$ trap frequency it gives $V_{1064}>\hbar2\pi\cdot 9\text{ MHz}$ and corresponds to a power of $P=6.7$ W.
+
+Such a power and beam waist would correspond from equation \ref{eq:transverse_trap_freq} to a radial trap frequency of $\omega_{\perp}=2\pi\cdot 2.4\text{ kHz}$, which is quite comparable to the chemical potential, so small Thomas-Fermi regime. The oscillator length associated is $a_{\perp}=160\text{ nm}$, and the Thomas-Fermi radius with a 3 kHz chemical potential is: $r_{c} = 260\text{ nm}$.
+Taking $n=2$ leads to $V_{1064}/\hbar = 2\pi\cdot 4\text{ MHz}$, $P = 3$ W, $\omega_{\perp} = 2\pi\cdot 1.6$ kHz, $a_{\perp}=200\text{ nm}$ and $r_{c} = 390\text{ nm}$. In this latter case the density would be with $N=10^{3}$ atoms per pancake on the order of $n_{0} \simeq 10^{17} \text{ cm}^{-3}$.
+
+If we want an equivalent of $10^{15} \text{ cm}^{-3}$ density, it means that the mean distance is $100\text{ nm}$, so that we can fit $4*(300/100)^{2} \simeq 30-40$ atoms per pancake.
+
+If we want to go the other way around and fix $r_{c} = 2\mu\text{m}$ with $\mu_{c}/\hbar = 2\pi\cdot 3\text{ kHz}$ it implies a $\omega_{\perp} = 2\pi\cdot 300\text{ Hz}$. With combining equations \ref{trap_depth}, \ref{gaussian_intensity} and \ref{eq:transverse_trap_freq} we have $\omega_{\perp} = \frac{2}{w_{0}^{2}}\sqrt{\frac{\text{Re}(\alpha)P}{\pi m\epsilon_{0}c}}$ and therefore $\sqrt{P}/w_{0}^{2}$ is constrained. The equation \ref{eq:constraint_depth} give a subsequent constraint that leads to $w_{1064} = \frac{\pi\epsilon_{0}cn^{2}\hbar\omega_{z}}{2w_{741} \text{Re}(\alpha) (\sqrt{P}/w_{1064}^{2})^{2}}=533\mu m$ and $P = 56$ kW.
+
+This being ridiculous it would be better to consider the maximum power we can put (twice 15 W) in the horizontal arms which would bring to something quite close to the 6.7 W beam from the top.
+
+If we want to reduce further down the top 1064 beam power requirement I would split it into two and use one of the current crossed ODT beam. With the current $40\mu$m beam waist in each arm, it gives two trap frequencies of $\omega_{\perp, 1} = 2\pi\cdot 1.2\text{ kHz}$ and $\omega_{\perp, 2} = 2\pi\cdot 26\text{ Hz}$.
+
+STILL NOT GOOD. EXPLORE WITH LESS POWER, WITH THE CLOUD STILL BEING CONFINED ON THE EDGES, PLAYING WITH THE EXPONENTIAL FACTOR IN THE TRAPPING POTENTIAL
+
+FEW FACTORS OF 2 TO FIGURE OUT:
+
+- The one in the excited state population when looking at rabi formula or OBE.
+
+- The mass that is used, sometimes $m$ and sometimes $\mu_{m}$ are used incoherently.
+\break
+
+\pagebreak
+
+\subsection{Classical derivation of the optical dipole force\label{app:dipole_force}}
+
+I think it's necessary to review a quick classical derivation of this formula for a two point particules of charge $\pm q$ forming a dipole. The force felt by the ensemble is the Lorentz force: \[
+\begin{array}{llll}
+\vec{F}&=&q\left(\vec{E}(\vec{r_{2}})-\vec{E}(\vec{r_{1}})+\frac{\d \vec{r_{2}}}{\d t}\times\vec{B}(\vec{r_{2}})-\frac{\d \vec{r_{1}}}{\d t}\times\vec{B}(\vec{r_{1}})\right) \\
+		&\approx & q\left(\left(\d\vec{r_{0}}\cdot\vv{\text{grad}}\right)\vec{E}+\frac{\d\vec{r_{0}}}{\d t}\times\vec{B}(\vec{r_{0}})\right)\\
+		&=& \left(\vec{p}\cdot\vv{\text{grad}}\right)\vec{E}+\frac{\d\vec{p}}{\d t}\times\vec{B}\\
+        &=& \left(\vec{p}\cdot\vv{\text{grad}}\right)\vec{E}+\frac{\d}{\d t}\left(\vec{p}\times\vec{B}\right)\underbrace{-\vec{p}\times\partial_{t}\vec{B}}_{+\vec{p}\times\left(\vec{\nabla}\times\vec{E}\right)}\\
+\end{array}
+\]
+
+However, for a periodic input field on this linear system, the time-average value over a period of a total derivative over time is null. Thus:
+
+\[
+\langle\vec{F}\rangle=\langle\left(\vec{p}\cdot\vv{\text{grad}}\right)\vec{E}\rangle+\langle\vec{p}\times\left(\vec{\nabla}\times\vec{E}\right)\rangle
+\]
+
+It is often easier to work with complex fields. The Maxwell's equations being linear and time-independant, it is always possible to consider a quasi-monochromatic solution $\left(\vec{E}(t),\vec{B}(t)\right)$, shift it of $\pi/4$ and add it up with an $i$ factor to get the complex fields $\left(\underline{\vec{E}}(t),\underline{\vec{B}}(t)\right)$. Thus $\vec{E}(\vec{r},t)=E_{0}\cos(\omega t - kz)\vec{e}_{x}$ becomes $\underline{\vec{E}}(\vec{r},t)=\underline{E}_{0}(z)e^{i\omega t}\vec{e}_{x}$ and $\vec{p}(t)=p_{0}\cos(\omega t -\phi)\vec{e}_{x}$ ($\vec{p}$ is supposed to be oriented on the same axis, meaning that $\alpha$ is diagonal) becomes $\underline{\vec{p}}=\underline{p}_{0}e^{i\omega t}\vec{e}_{x}=p_{0}e^{-i\phi}e^{i\omega t}\vec{e}_{x}$. Considering the dipole to be in $z=0$ and thus $e^{ikz}=1$, it is now possible to define the frequency-dependant polarizability:
+\[\underline{p}_{0}(\omega)=\underline{\alpha}(\omega)\underline{E}_{0}(\omega)\]
+The correct way to then consider the force $\underline{\vec{F}}$ is to use the same trick that is often done with the Poynting vector: conjugate one of the two quantities.
+
+\[
+\langle\vec{F}\rangle=\frac{1}{2}\text{Re}\left[\left(\underline{\vec{p}}\cdot\vv{\text{grad}}\right)\underline{\vec{E}}^{*}+\underline{\vec{p}}\times\left(\vec{\nabla}\times\underline{\vec{E}}^{*}\right)\right]
+\]
+
+Let's assume that this formal can be extended to any type of quasi-monochromatic field that are locally a plane wave (such as a gaussian beam): $\vec{E}(\vec{r},t)=\vec{E}_{0}(\vec{r})\cos(\omega t - \vec{k}(\vec{r})\cdot \vec{r})$. The complexified field is thus simply $\underline{\vec{E}}(\vec{r},t)=\underline{\vec{E}}_{0}(\vec{r})e^{i\omega t}$. $\underline{\vec{E}}_{0}(\vec{r})=\vec{E}_{0}(\vec{r})e^{i\varphi(\vec{r})}$ can be decomposed in module $\vec{E}_{0}(\vec{r})$ and phase $\varphi(\vec{r})$.
+
+
+\[
+\begin{array}{lllll}
+
+\left(\underline{\vec{p}}\cdot\vv{\text{grad}}\right)\underline{\vec{E}}^{*}
+&=&
+\underline{\alpha}\left(\underline{\vec{E}}\cdot\vv{\text{grad}}\right)\underline{\vec{E}}^{*} \\
+&=&
+\underline{\alpha} e^{i\varphi(\vec{r})}\left(\vec{E}(\vec{r})\cdot\vv{\text{grad}}\right)\left(\vec{E}(\vec{r})e^{-i\varphi(\vec{r})}\right) \\
+&=&
+\underline{\alpha}\left\lbrace \left(\vec{E}(\vec{r})\cdot\vv{\text{grad}}\right)\vec{E}(\vec{r})-i\vec{E}\left(\vec{E}(\vec{r})\cdot\vec{\nabla}\varphi(\vec{r})\right)\right\rbrace \\
+
+\end{array}
+\]
+
+And also:
+
+\[
+\begin{array}{lllll}
+
+\underline{\vec{p}}\times\left(\vec{\nabla}\times\underline{\vec{E}}^{*}\right) 
+&=&
+\underline{\alpha}\underline{\vec{E}}\times\left(\vec{\nabla}\times\underline{\vec{E}}^{*}\right) \\
+&=&
+\underline{\alpha}e^{i\varphi(\vec{r})}\vec{E}(\vec{r})\times\left(\vec{\nabla}\times\vec{E}(\vec{r})e^{-i\varphi(\vec{r})}\right) \\
+&=&
+\underline{\alpha}\left\lbrace \vec{E}(\vec{r})\times\left(\vec{\nabla}\times\vec{E}(\vec{r})\right)-i\vec{E}(\vec{r})\times\left(\vec{\nabla}\varphi(\vec{r})\times\vec{E}(\vec{r})\right)\right\rbrace \\
+&=&
+\underline{\alpha}\left\lbrace \vec{E}(\vec{r})\times\left(\vec{\nabla}\times\vec{E}(\vec{r})\right)-i\vec{\nabla}\varphi(\vec{r})\left(\vec{E}(\vec{r})\cdot\vec{E}(\vec{r})\right)+i\vec{E}(\vec{r})\left(\vec{E}(\vec{r})\cdot\vec{\nabla}\varphi(\vec{r})\right)\right\rbrace \\
+
+\end{array}
+\]
+
+Therefore, by noticing that $\left(\vec{E}\cdot\vv{\text{grad}}\right)\vec{E}+\vec{E}\times\left(\vec{\nabla}\times\vec{E}\right)=\vec{\nabla}E^{2}/2$ one has:
+
+\[
+\begin{array}{lllll}
+
+\left(\underline{\vec{p}}\cdot\vv{\text{grad}}\right)\underline{\vec{E}}^{*} + \underline{\vec{p}}\times\left(\vec{\nabla}\times\underline{\vec{E}}^{*}\right) 
+&=&
+\underline{\alpha}\left\lbrace \vec{\nabla}E^{2}/2 -iE^{2}\vec{\nabla}\varphi\right\rbrace \\
+
+\end{array}
+\]
+
+Hence the desired result:
+
+\[\langle\vec{F}\rangle=\frac{1}{4}\text{Re}(\underline{\alpha})\vec{\nabla}E^{2}+\frac{1}{2}\text{Im}(\underline{\alpha})E^{2}\vec{\nabla}\varphi\]
+
+
+
+
+
+
+
+\end{document}
