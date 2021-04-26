@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from databaseCommunication import createDataFrame, createDataFrame_2, createDataFrame_images
+from databaseCommunication import createDataFrame, createDataFrame_2, createDataFrame_images, createDataFrame_list
 from scipy.optimize import curve_fit
 from scipy.integrate import solve_ivp
 import numpy as np
