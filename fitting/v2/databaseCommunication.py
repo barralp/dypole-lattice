@@ -176,13 +176,13 @@ def createDataFrame_list(imageIDList, ciceroVariables, fitVariables = ['nCount',
     df = pd.DataFrame(dictionnary)
     for imageID in imageIDList:
         runID = getRunIDFromImageID(imageID)
-        ciceroVariablesString = ' '.join([ciceroVariable for ciceroVariable in ciceroVariables])
+        ciceroVariablesString = ', '.join([ciceroVariable for ciceroVariable in ciceroVariables])
         sql_query = "SELECT " + ciceroVariablesString + " FROM ciceroOut WHERE runID = {} ;".format(runID)
         ciceroVariablesOut = executeGetQuery(sql_query)[0][:]
-        fitVariablesString = ' '.join([variableFit for variableFit in fitVariables])
+        fitVariablesString = ', '.join([variableFit for variableFit in fitVariables])
         sql_query = "SELECT " + fitVariablesString + " FROM nCounts WHERE runID_fk = {} ;".format(runID)
         fitVariablesOut = executeGetQuery(sql_query)[0][:] # beware eventually between [:] and [0], make 2 cases
-        dictTemp = {}
+        dictTemp = {'imageID' : imageID}
         for ciceroVariable, ciceroVariableOut in zip(ciceroVariables, ciceroVariablesOut):
             dictTemp[ciceroVariable] = ciceroVariableOut
         for fitVariable, fitVariableOut in zip(fitVariables, fitVariablesOut):

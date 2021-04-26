@@ -81,11 +81,12 @@ def createLabeledDataFrame_list(labels, label_heads, ciceroVariables, fitVariabl
         for label in labels:
             if imageID in range(label[1][0], label[1][1]+1):
                 labels_list += [label[0]]
-    labels_list_array = np.array(labels_list)
+    labels_list_array = np.array(labels_list).T
     df = createDataFrame_list(imageIDList, ciceroVariables, fitVariables)
     i = 0
     for label_head in label_heads:
         df[label_head] = labels_list_array[i,:]
+        i += 1
     return df
 
 def createLabeledDataFrame_images(labels):
