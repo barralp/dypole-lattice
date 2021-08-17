@@ -74,9 +74,9 @@ def renameUnits(df, magnification, cameraPixelSize = 6.5, axis = 'vertical', exp
             df['yWidth_TOF_v_um'] = df['xWidth']*cameraPixelSize/magnification
             # df['zWidth_TOF_v_um'] = 0
         elif axis == 'horizontal':
-            df['xWidth_TOF_h_um'] = df['xWidth']*cameraPixelSize/magnification
+            df['xWidth_TOF_h_um'] = df['yWidth']*cameraPixelSize/magnification
             # df['yWidth_TOF_h_um'] = 0
-            df['zWidth_TOF_h_um'] = df['yWidth']*cameraPixelSize/magnification
+            df['zWidth_TOF_h_um'] = df['xWidth']*cameraPixelSize/magnification
         else:
             print('Camera axis not defined')
     elif experiment == 'inSitu':
@@ -87,9 +87,9 @@ def renameUnits(df, magnification, cameraPixelSize = 6.5, axis = 'vertical', exp
             df['yWidth_inSitu_v_um'] = df['xWidth']*cameraPixelSize/magnification
             # df['zWidth_inSitu_v_um'] = 0
         elif axis == 'horizontal':
-            df['xWidth_inSitu_h_um'] = df['xWidth']*cameraPixelSize/magnification
+            df['xWidth_inSitu_h_um'] = df['yWidth']*cameraPixelSize/magnification
             # df['yWidth_inSitu_h_um'] = 0
-            df['zWidth_inSitu_h_um'] = df['yWidth']*cameraPixelSize/magnification
+            df['zWidth_inSitu_h_um'] = df['xWidth']*cameraPixelSize/magnification
         else:
             print('Camera axis not defined')
     else:

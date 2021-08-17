@@ -8,11 +8,16 @@ import pandas as pd
 
 ## Import those function in the file
 
+alpha_exp_ms = 1/18000 # in ms^-1
+
 def N_polarized_pure3b(t, N0, gamma):
     return N0 / np.sqrt(1+2*N0**2*gamma*t)
 
 def N_polarized(t, N0, alpha, gamma):
     return np.sqrt(alpha / (np.exp(2*alpha*t)*(alpha/(N0**2)+gamma)-gamma))
+
+def N_polarized_premix(t, N0, gamma):
+    return np.sqrt(alpha_exp_ms / (np.exp(2*alpha_exp_ms*t)*(alpha_exp_ms/(N0**2)+gamma)-gamma))
 
 def N_linear(t, N0, b):
     return N0-b*t
@@ -22,7 +27,21 @@ def N_linear(t, N0, b):
 def fitRun_pure(df_run):
     N0_guess = max(df_run['nCount'])
     time_guess = max(df_run['BECHoldTime'])
-    popt, pcov = curve_fit(N_polarized_pure3b, df_run['BECHoldTime'], df_run['nCount'],
+    try:
+        popt, pcov = curve_fit(N_polarized_pure3b, df_run['BECHoldTime'], df_run['nCount'],
+                       p0 = [N0_guess, 1/(N0_guess**2*time_guess)],
+                          )#bounds = ((0, 0), (np.inf, np.inf)),
+                           #method = 'trf'
+                      #)
+    except:
+        print('failed at ' + str(df_run.iloc[0, :]))
+        pass
+    return popt, pcov
+
+def fitRun_pure_premix(df_run):
+    N0_guess = max(df_run['nCount'])
+    time_guess = max(df_run['BECHoldTime'])
+    popt, pcov = curve_fit(N_polarized_premix, df_run['BECHoldTime'], df_run['nCount'],
                        p0 = [N0_guess, 1/(N0_guess**2*time_guess)],
                           )#bounds = ((0, 0), (np.inf, np.inf)),
                            #method = 'trf'
@@ -69,30 +88,43 @@ def fitDF(df, parametersList, fitType = 'pure', tmax_ms = 20):
             # runParametersMean = df_run.mean().add_suffix('_mean').to_dict()
             # runParametersStd = df_run.std().add_suffix('_std').to_dict()
             runParameters = df_run.mean().to_dict()
-            if fitType == 'pure':
-                popt, pcov = fitRun_pure(df_run)
-                results += [{'N0' : popt[0],
-                             'alpha' : np.nan,
-                             'gamma' : popt[1],
-                             'b' : np.nan
-                                    }]
-            elif fitType == 'mix':
-                popt, pcov = fitRun_mix(df_run)
-                results += [{'N0' : popt[0],
-                             'alpha' : popt[1],
-                             'gamma' : popt[2],
-                             'b' : np.nan
-                                    }]
-            elif fitType == 'lin':
-                popt, pcov = fitRun_lin(df_run, tmax_ms)
-                results += [{'N0' : popt[0],
-                             'alpha' : np.nan,
-                             'gamma' : 2*popt[1]/popt[0]**3,  # gamm = 2b/N0**3, which links the linear model to the rest
-                             'b' : popt[1]
-                                    }]
-            # results[-1].update(runParametersMean)
-            # results[-1].update(runParametersStd)
-            results[-1].update(runParameters)
+            try:
+                if fitType == 'pure':
+                    popt, pcov = fitRun_pure(df_run)
+                    results += [{'N0' : popt[0],
+                                 'alpha' : np.nan,
+                                 'gamma' : popt[1],
+                                 'b' : np.nan
+                                        }]
+                elif fitType == 'pure_premix':
+                    print(runParameters)
+                    popt, pcov = fitRun_pure_premix(df_run)
+                    results += [{'N0' : popt[0],
+                                 'alpha' : alpha_exp_ms,
+                                 'gamma' : popt[1],
+                                 'b' : np.nan
+                                        }]
+                elif fitType == 'mix':
+                    popt, pcov = fitRun_mix(df_run)
+                    results += [{'N0' : popt[0],
+                                 'alpha' : popt[1],
+                                 'gamma' : popt[2],
+                                 'b' : np.nan
+                                        }]
+                elif fitType == 'lin':
+                    popt, pcov = fitRun_lin(df_run, tmax_ms)
+                    results += [{'N0' : popt[0],
+                                 'alpha' : np.nan,
+                                 'gamma' : 2*popt[1]/popt[0]**3,  # gamma = 2b/N0**3, which links the linear model to the rest
+                                 'b' : popt[1]
+                                        }]
+                # results[-1].update(runParametersMean)
+                # results[-1].update(runParametersStd)
+                results[-1].update(runParameters)
+            except:
+                print("failed at fitting run " + str(parametersList) + "  " + str(runParameters))
+                raise
+                pass       
     return pd.DataFrame(results)
                                 #.drop(columns = ['level_0']) # just to remove the index that went through getSubDF
 """
